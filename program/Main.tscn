@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://figures/door_open.png" type="Texture" id=2]
+[ext_resource path="res://figures/door_closed.png" type="Texture" id=3]
+[ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://Door.gd" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "close",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 101.664, 158.367 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 4 )
+
+[node name="Door" type="Area2D" parent="."]
+position = Vector2( 386.266, 538.441 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Door"]
+frames = SubResource( 1 )
+animation = "close"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+position = Vector2( -5, 0 )
+shape = SubResource( 2 )
+
+[node name="Door2" type="Area2D" parent="."]
+position = Vector2( 570.474, 537.106 )
+scale = Vector2( 0.4, 0.4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Door2"]
+frames = SubResource( 1 )
+animation = "close"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door2"]
+position = Vector2( -5, 0 )
+shape = SubResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 60.2215, 561.706 )
+scale = Vector2( 1.25, 1.25 )
+
+[node name="Text" type="Label" parent="."]
+anchor_left = 0.381
+anchor_top = 0.735
+anchor_right = 0.381
+anchor_bottom = 0.735
+margin_left = -104.114
+margin_top = 14.1857
+margin_right = 104.886
+margin_bottom = 28.1857
+text = "Press \"Space\" to enter the Room"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Locked" type="Label" parent="."]
+anchor_left = 0.381
+anchor_top = 0.735
+anchor_right = 0.381
+anchor_bottom = 0.735
+margin_left = 132.227
+margin_top = 14.6652
+margin_right = 218.227
+margin_bottom = 28.6652
+text = "LOCKED"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Locked2" type="Label" parent="."]
+margin_left = 3.11853
+margin_top = 3.15472
+margin_right = 89.1185
+margin_bottom = 17.1547
+text = "Press \"Esc\" to leave the game"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+[connection signal="area_entered" from="Door" to="Door" method="_on_Door_area_entered"]
+[connection signal="area_exited" from="Door" to="Door" method="_on_Door_area_exited"]
+[connection signal="area_entered" from="Door2" to="Door2" method="_on_Door_area_entered"]
+[connection signal="area_exited" from="Door2" to="Door2" method="_on_Door_area_exited"]
+[connection signal="catched" from="Player" to="." method="_on_Player_catched"]
